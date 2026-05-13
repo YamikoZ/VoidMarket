@@ -271,7 +271,26 @@ voidmarket.use
 
 ### `/pshop list`
 
-ดูรายการร้านค้าของตัวเอง
+ดูรายการร้านค้าของตัวเองในแชท พร้อมปุ่มคลิก:
+
+- `[COPY ID]` คัดลอก `shopId` แบบเต็มทันที
+- `[STOCK]` เติมคำสั่ง `/pshop stock <shopId>` ให้ในช่องแชท
+- `[PRICE]` เติมคำสั่ง `/pshop setprice <shopId> <ราคา>` ให้ในช่องแชท
+- `[REMOVE]` เติมคำสั่ง `/pshop remove <shopId>` ให้ในช่องแชท
+
+ตัวอย่างการใช้งาน:
+
+```text
+/pshop list
+```
+
+ในแชทจะเห็นประมาณนี้:
+
+```text
+1. Diamond | Price 250 | Stock 64 | ID 4b3f1c9a [COPY ID] [STOCK] [PRICE] [REMOVE]
+```
+
+`ID 4b3f1c9a` เป็นรหัสย่อให้อ่านง่าย ส่วนปุ่ม `[COPY ID]` จะ copy UUID เต็มของร้าน
 
 Permission:
 
