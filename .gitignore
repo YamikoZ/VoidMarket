@@ -1,3 +1,7 @@
+# Source (distributed as built jar via GitHub Releases)
+src/
+pom.xml
+
 # Maven
 target/
 *.class
