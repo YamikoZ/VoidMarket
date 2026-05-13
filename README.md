@@ -1,6 +1,6 @@
 # VoidMarket
 
-VoidMarket คือปลั๊กอินเศรษฐกิจสำหรับเซิร์ฟเวอร์ Paper ของ VoidSMP มีระบบตลาดกลาง, ราคาแบบ Dynamic, ร้านค้าผู้เล่นแบบ Virtual Shop, GUI, ฐานข้อมูล SQLite/MySQL, Vault Economy และ PlaceholderAPI แบบ optional
+VoidMarket คือปลั๊กอินเศรษฐกิจสำหรับเซิร์ฟเวอร์ Paper/Folia ของ VoidSMP มีระบบตลาดกลาง, ราคาแบบ Dynamic, ร้านค้าผู้เล่นแบบ Virtual Shop, GUI, ฐานข้อมูล SQLite/MySQL, Vault Economy และ PlaceholderAPI แบบ optional
 
 ปลั๊กอินนี้ **ไม่ใช่ Chest Shop** และ **ไม่ผูกกับตำแหน่ง block/chest** ร้านค้าผู้เล่นทั้งหมดเป็นร้าน virtual ที่เก็บ stock ในฐานข้อมูล
 
@@ -22,33 +22,38 @@ VoidMarket คือปลั๊กอินเศรษฐกิจสำหร
 - มี transaction log ในฐานข้อมูล
 - มี PlaceholderAPI ถ้าติดตั้งไว้
 
+## ⚠️ การแจกจ่าย
+
+**โปรเจกต์นี้ไม่แจกซอร์สโค้ด (closed source)**
+
+- repo นี้มีเฉพาะ README และไฟล์ที่ build แล้ว (jar)
+- ห้ามแก้ไข, decompile, reverse engineer, หรือ redistribute ในรูปแบบที่ดัดแปลง
+- ใช้งานได้ฟรีบนเซิร์ฟเวอร์ของคุณ แต่ไม่อนุญาตให้นำซอร์ส (หากได้มาด้วยวิธีใด ๆ) ไปเผยแพร่ต่อ
+- ถ้าพบบั๊กหรืออยากขอฟีเจอร์ เปิด Issue ใน repo นี้ได้
+
 ## สิ่งที่ต้องมี
 
-- Paper API / Paper Server รุ่นที่โปรเจกต์ตั้งไว้
-- Java 25 ตาม `pom.xml` ปัจจุบัน
+- Paper หรือ Folia รุ่นที่ระบุใน Release
+- Java 21+ (ตามเวอร์ชันที่ระบุใน Release)
 - Vault
 - Economy plugin เช่น EssentialsX Economy
 - LuckPerms แนะนำสำหรับจัด permission
 - PlaceholderAPI ไม่บังคับ
 
-## วิธี Build
+## Folia
 
-ใช้คำสั่งนี้ในโฟลเดอร์ `VoidMarket`
+VoidMarket ประกาศ `folia-supported: true` แล้ว และใช้ Paper/Folia scheduler API สำหรับงานที่ต้องกลับไปหา player/global thread
 
-```bash
-mvn clean package
-```
+## วิธีดาวน์โหลด
 
-ไฟล์ jar จะอยู่ที่:
+ดาวน์โหลด jar ล่าสุดจากหน้า [Releases](https://github.com/YamikoZ/VoidMarket/releases)
 
-```text
-target/voidmarket-1.0.0.jar
-```
+ไม่ต้อง build เอง — โปรเจกต์นี้ไม่แจกซอร์ส
 
 ## วิธีติดตั้ง
 
-1. Build plugin หรือใช้ jar ที่ build แล้ว
-2. นำ `voidmarket-1.0.0.jar` ไปใส่ในโฟลเดอร์ `plugins/`
+1. ดาวน์โหลด `VoidMarket-x.x.x.jar` จาก [Releases](https://github.com/YamikoZ/VoidMarket/releases)
+2. นำ jar ไปใส่ในโฟลเดอร์ `plugins/`
 3. ติดตั้ง `Vault` และ economy plugin เช่น `EssentialsX`
 4. Start server หนึ่งครั้งเพื่อให้ plugin สร้าง config
 5. ตั้งค่า `config.yml` ตามต้องการ
