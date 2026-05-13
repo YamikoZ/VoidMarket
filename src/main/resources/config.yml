@@ -1,0 +1,121 @@
+language: en
+reset-mode: DAILY
+reset-time: "04:00"
+min-price-multiplier: 0.5
+max-price-multiplier: 3.0
+demand-weight: 0.02
+supply-weight: 0.02
+scarcity-weight: 0.05
+tax-percent: 5.0
+daily-stock-limit: 5000
+max-shops-default: 2
+max-shops-vip: 5
+max-shops-svip: 10
+max-shops-staff: 50
+max-shop-stock: 3456
+allow-buy-own-shop: false
+price-change-broadcast-percent: 25.0
+
+modern-gradients:
+  enabled: true
+  format: minimessage
+  primary: "<gradient:#8A2BFF:#F05CFF:#FFFFFF>"
+  secondary: "<gradient:#22C55E:#A3E635>"
+  danger: "<gradient:#EF4444:#F97316>"
+  gold: "<gradient:#FACC15:#FB923C>"
+  reset: "</gradient>"
+
+storage:
+  type: sqlite
+  sqlite:
+    file: market.db
+  mysql:
+    host: localhost
+    port: 3306
+    database: voidmarket
+    username: root
+    password: ''
+    useSSL: false
+    pool:
+      maximumPoolSize: 10
+      minimumIdle: 2
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+
+allowed-items: []
+blocked-items:
+  - BEDROCK
+  - COMMAND_BLOCK
+
+categories:
+  Blocks:
+    - STONE
+    - OAK_LOG
+  Food:
+    - BREAD
+    - COOKED_BEEF
+  Tools:
+    - IRON_PICKAXE
+    - DIAMOND_PICKAXE
+  Ores:
+    - COAL
+    - IRON_INGOT
+    - DIAMOND
+  Mob Drops:
+    - BONE
+    - ROTTEN_FLESH
+  Special:
+    - ENDER_PEARL
+    - GOLDEN_APPLE
+
+market-items:
+  stone:
+    material: STONE
+    category: Blocks
+    display-name: "&fStone"
+    base-price: 2.0
+    stock: 1000
+    target-stock: 1000
+  oak_log:
+    material: OAK_LOG
+    category: Blocks
+    display-name: "&6Oak Log"
+    base-price: 6.0
+    stock: 800
+    target-stock: 800
+  bread:
+    material: BREAD
+    category: Food
+    display-name: "&eBread"
+    base-price: 8.0
+    stock: 500
+    target-stock: 500
+  cooked_beef:
+    material: COOKED_BEEF
+    category: Food
+    display-name: "&cCooked Beef"
+    base-price: 12.0
+    stock: 500
+    target-stock: 500
+  coal:
+    material: COAL
+    category: Ores
+    display-name: "&8Coal"
+    base-price: 10.0
+    stock: 700
+    target-stock: 700
+  iron_ingot:
+    material: IRON_INGOT
+    category: Ores
+    display-name: "&fIron Ingot"
+    base-price: 35.0
+    stock: 400
+    target-stock: 400
+  diamond:
+    material: DIAMOND
+    category: Ores
+    display-name: "&bDiamond"
+    base-price: 250.0
+    stock: 120
+    target-stock: 120
