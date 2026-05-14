@@ -1,53 +1,23 @@
 # VoidMarket
 
-VoidMarket คือปลั๊กอินร้านค้าผู้เล่นแบบ Virtual Shop สำหรับ Paper/Folia ของ VoidSMP
+VoidMarket คือปลั๊กอินตลาดและร้านค้าสำหรับ Minecraft Java Edition 26.1.2 / Paper และ Folia
 
-เวอร์ชันนี้ **ไม่มีตลาดกลางของเซิร์ฟเวอร์แล้ว** ไม่มี `/market` ไม่มีสินค้าจากระบบกลาง และไม่มีการซื้อ/ขายกับ server shop อีกต่อไป ทุกการซื้อขายจะเกิดจากร้านค้าผู้เล่นเท่านั้น
+ตอนนี้ปลั๊กอินมี 2 ระบบแยกกันชัดเจน:
 
-ระบบยังมีเศรษฐกิจแบบขึ้น/ลง โดยแสดงเป็นแนวโน้มของร้านค้า:
+1. **Player Shop / ร้านค้าผู้เล่น**
+   ผู้เล่นสร้างร้านเอง ตั้งราคาเอง เติม stock เอง และซื้อขายกันเองผ่าน Virtual Shop
 
-```text
-UP     = ของขายดี / stock ต่ำ / ความต้องการสูง
-DOWN   = ของยังไม่ค่อยขาย / stock เยอะ
-STABLE = สถานะปกติ
-```
-
-แนวโน้มจะแสดงใน GUI ร้านค้า, `/pshop list`, และข้อความหลังซื้อสินค้า
-
-## ฟีเจอร์หลัก
-
-- ร้านค้าผู้เล่นแบบ Virtual Shop
-- ไม่ใช้ Chest Shop
-- ไม่ผูกกับตำแหน่ง block หรือ chest
-- เจ้าของร้าน offline ก็ขายของได้
-- Stock เก็บใน database
-- เงินเข้าผู้ขายผ่าน Vault Economy
-- มีภาษีร้านค้าจาก `tax-percent`
-- มี UI แสดงราคา, stock, owner, sold count และ trend
-- มีปุ่ม copy shopId จาก `/pshop list`
-- รองรับ Paper และ Folia
-- รองรับ SQLite และ MySQL/MariaDB
-- รองรับภาษา `en` และ `th`
-- รองรับ PlaceholderAPI แบบ optional
+2. **Server Market / ตลาดกลางเซิร์ฟเวอร์**
+   ตลาดกลางที่ระบบเซิร์ฟเวอร์ควบคุมสินค้าและราคา ผู้เล่นซื้อ/ขายกับระบบกลางได้ แต่ผู้เล่นเพิ่มสินค้าเองหรือตั้งราคาเองไม่ได้
 
 ## สิ่งที่ต้องติดตั้ง
 
-- Paper หรือ Folia รุ่นที่ plugin build รองรับ
-- Java ตาม release/pom ของ plugin
+- Paper หรือ Folia 26.1.2
+- Java ตาม `pom.xml`
 - Vault
 - Economy plugin เช่น EssentialsX Economy
 - LuckPerms แนะนำสำหรับ permission
 - PlaceholderAPI ไม่บังคับ
-
-## Folia
-
-VoidMarket รองรับ Folia แล้ว:
-
-```yaml
-folia-supported: true
-```
-
-โค้ดใช้ Paper/Folia scheduler API แทน `Bukkit.getScheduler()`
 
 ## วิธี Build
 
@@ -57,7 +27,7 @@ folia-supported: true
 mvn clean package
 ```
 
-jar จะอยู่ที่:
+ไฟล์ปลั๊กอินจะอยู่ที่:
 
 ```text
 target/voidmarket-1.0.0.jar
@@ -66,21 +36,38 @@ target/voidmarket-1.0.0.jar
 ## วิธีติดตั้ง
 
 1. ใส่ `voidmarket-1.0.0.jar` ในโฟลเดอร์ `plugins/`
-2. ติดตั้ง Vault และ economy plugin เช่น EssentialsX
-3. Start server หนึ่งครั้งให้ plugin สร้าง config
-4. แก้ `plugins/VoidMarket/config.yml`
-5. Restart server หรือใช้ `/pshop reload`
+2. ติดตั้ง Vault และ EssentialsX Economy
+3. Start server หนึ่งครั้งให้ปลั๊กอินสร้าง config
+4. ตั้งค่า `plugins/VoidMarket/config.yml`
+5. Restart server หรือใช้ `/pshop reload` และ `/market reload`
 
-ถ้าอัปเดตจากเวอร์ชันเก่าแล้วข้อความยังเป็น key แปลก ๆ ให้ลบหรือ rename:
+## Player Shop คืออะไร
+
+Player Shop คือร้านค้าผู้เล่นแบบ Virtual Shop:
+
+- ไม่ใช้ Chest Shop
+- ไม่ผูกกับ block หรือ chest
+- เจ้าของร้าน offline ก็ยังขายของได้
+- stock เก็บใน database
+- เงินเข้าผู้ขายผ่าน Vault Economy
+- มีภาษีจาก `tax-percent`
+- มีปุ่ม copy shopId จาก `/pshop list`
+
+### วิธีตั้งร้านค้าผู้เล่น
+
+1. ถือไอเทมที่ต้องการขาย
+2. ใช้คำสั่ง `/pshop create <ราคา>`
+3. ยืนยันใน GUI
+4. เติมหรือถอน stock ได้ที่ `/pshop manage`
+5. ผู้เล่นอื่นซื้อได้จาก `/pshop browse`
+
+ตัวอย่าง:
 
 ```text
-plugins/VoidMarket/messages_en.yml
-plugins/VoidMarket/messages_th.yml
+/pshop create 250
 ```
 
-แล้ว restart server เพื่อให้สร้างไฟล์ใหม่
-
-## คำสั่งผู้เล่นที่ใช้บ่อย
+## คำสั่ง Player Shop
 
 ```text
 /pshop
@@ -92,13 +79,13 @@ plugins/VoidMarket/messages_th.yml
 /pshop stock <shopId>
 /pshop setprice <shopId> <ราคา>
 /pshop remove <shopId>
+/pshop reload
+/pshop storage
 ```
-
-## คำสั่ง Player Shop ทั้งหมด
 
 ### `/pshop`
 
-เปิดเมนูหลักของร้านค้าผู้เล่น
+เปิดเมนูร้านค้าผู้เล่นของตัวเอง
 
 Permission:
 
@@ -110,29 +97,13 @@ voidmarket.use
 
 ดูวิธีใช้งานร้านค้าผู้เล่น
 
-Permission:
+### `/pshop create <ราคา>`
+
+สร้างร้านจากไอเทมในมือ เช่น:
 
 ```text
-voidmarket.use
+/pshop create 500
 ```
-
-### `/pshop create <price>`
-
-สร้างร้านจาก item ที่ถืออยู่ในมือ
-
-ตัวอย่าง:
-
-```text
-/pshop create 250
-```
-
-ขั้นตอน:
-
-1. ถือ item ที่ต้องการขาย
-2. พิมพ์ `/pshop create <ราคา>`
-3. กดยืนยันใน GUI
-4. item ในมือจะกลายเป็น stock เริ่มต้นของร้าน
-5. ผู้เล่นอื่นซื้อได้จาก `/pshop browse`
 
 Permission:
 
@@ -142,103 +113,33 @@ voidmarket.shop.create
 
 ### `/pshop browse`
 
-เปิด GUI ตลาดร้านค้าผู้เล่นทั้งหมด
-
-ใน GUI จะแสดง:
-
-- item icon
-- owner
-- price
-- stock
-- sold count
-- economy trend: `UP`, `DOWN`, `STABLE`
-
-Permission:
-
-```text
-voidmarket.use
-```
+เปิด GUI ร้านค้าผู้เล่นทั้งหมด ซื้อขายกับผู้เล่นคนอื่น
 
 ### `/pshop list`
 
-แสดงร้านของตัวเองใน chat พร้อมปุ่มจัดการ
-
-ตัวอย่าง:
+แสดงร้านของตัวเองใน chat พร้อมปุ่ม:
 
 ```text
-1. Diamond | Price 250 | Stock 64 | Trend UP | ID 4b3f1c9a [COPY ID] [STOCK] [PRICE] [REMOVE]
+[COPY ID] [STOCK] [PRICE] [REMOVE]
 ```
 
-ปุ่ม:
-
-- `[COPY ID]` copy shopId แบบเต็ม
-- `[STOCK]` เติมคำสั่ง `/pshop stock <shopId>`
-- `[PRICE]` เติมคำสั่ง `/pshop setprice <shopId> `
-- `[REMOVE]` เติมคำสั่ง `/pshop remove <shopId>`
-
-Permission:
-
-```text
-voidmarket.use
-```
+ใช้ปุ่ม `[COPY ID]` เพื่อคัดลอก shopId แบบเต็มได้ทันที
 
 ### `/pshop manage`
 
-เปิด GUI จัดการร้านของตัวเอง
-
-คลิกขวาที่ร้านเพื่อเปิดหน้า stock
-
-Permission:
-
-```text
-voidmarket.use
-```
+เปิด GUI จัดการร้านของตัวเอง เช่น ดูร้าน แก้ราคา เติม stock และลบร้าน
 
 ### `/pshop stock <shopId>`
 
-เปิด GUI เติม stock ของร้าน
+เปิด GUI เติมหรือถอน stock ของร้าน
 
-ตัวอย่าง:
-
-```text
-/pshop stock 4b3f1c9a-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-```
-
-แนะนำให้กดปุ่ม `[STOCK]` จาก `/pshop list`
-
-Permission:
-
-```text
-voidmarket.use
-```
-
-### `/pshop setprice <shopId> <price>`
+### `/pshop setprice <shopId> <ราคา>`
 
 เปลี่ยนราคาของร้าน
 
-ตัวอย่าง:
-
-```text
-/pshop setprice 4b3f1c9a-xxxx-xxxx-xxxx-xxxxxxxxxxxx 500
-```
-
-แนะนำให้กดปุ่ม `[PRICE]` จาก `/pshop list`
-
-Permission:
-
-```text
-voidmarket.use
-```
-
 ### `/pshop remove <shopId>`
 
-ลบร้านและคืน stock ที่เหลือเข้า inventory ของเจ้าของร้าน
-
-ตัวอย่าง:
-
-```text
-/pshop remove 4b3f1c9a-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-```
+ลบร้านและคืน stock ที่เหลือให้เจ้าของร้าน
 
 Permission:
 
@@ -246,73 +147,171 @@ Permission:
 voidmarket.shop.remove
 ```
 
-### `/pshop reload`
+## Server Market คืออะไร
 
-Reload config และ messages
+Server Market คือตลาดกลางของเซิร์ฟเวอร์:
+
+- ผู้เล่นซื้อไอเทมจากระบบกลางได้
+- ผู้เล่นขายไอเทมให้ระบบกลางได้
+- สินค้าอยู่ใน `config.yml`
+- ราคา base/current/min/max อยู่ใน config และ data
+- ราคาขึ้นเมื่อมีคนซื้อเยอะ
+- ราคาขายลงเมื่อมีคนขายเยอะ
+- ราคาค่อย ๆ กลับสู่ base price ตามเวลา
+- ข้อมูลราคา dynamic เก็บใน `server-market-data.yml`
+
+Server Market ไม่ใช่ Player Shop และไม่ได้มาจากผู้เล่น
+
+## คำสั่ง Server Market
+
+```text
+/market
+/voidmarket market
+/market help
+/market data
+/market trend <item>
+/market reload
+/market reset <item>
+/market setbuy <item> <price>
+/market setsell <item> <price>
+```
+
+### `/market`
+
+เปิด GUI ตลาดกลางเซิร์ฟเวอร์
 
 Permission:
 
 ```text
-voidmarket.reload
+voidmarket.market.use
 ```
 
-### `/pshop storage`
+### `/voidmarket market`
 
-ดูชนิด storage ที่กำลังใช้ เช่น SQLite หรือ MySQL
+เปิด GUI ตลาดกลางผ่านคำสั่งหลักของปลั๊กอิน
+
+### `/market data`
+
+ดูจำนวนสินค้า จำนวนหมวด และสถานะ dynamic pricing
 
 Permission:
 
 ```text
-voidmarket.use
+voidmarket.market.admin
 ```
 
-## ระบบเศรษฐกิจขึ้น/ลง
+### `/market trend <item>`
 
-VoidMarket ไม่มีตลาดกลางแล้ว แต่ยังมี “แนวโน้มเศรษฐกิจ” ของร้านผู้เล่น
-
-แนวโน้มคำนวณจาก stock และยอดขาย:
-
-- `UP` ถ้าของขายดี หรือ stock ต่ำ
-- `DOWN` ถ้ายังไม่ค่อยขาย และ stock เยอะ
-- `STABLE` ถ้าสถานะปกติ
-
-แนวโน้มนี้ช่วยให้ผู้เล่นเห็นว่า item ในร้านกำลังได้รับความนิยมไหม
-
-## ทำไมซื้อร้านตัวเองไม่ได้
-
-ถ้าขึ้น:
+ดูแนวโน้มราคาของสินค้า เช่น:
 
 ```text
-Transaction cancelled: You cannot buy from your own shop.
+/market trend STONE
 ```
 
-แปลว่า:
+### `/market reload`
+
+รีโหลด config/messages และรายการ Server Market โดยไม่ลบข้อมูลราคา dynamic
+
+Permission:
 
 ```text
-ยกเลิกธุรกรรม: คุณไม่สามารถซื้อของจากร้านตัวเองได้
+voidmarket.market.reload
 ```
 
-ค่า config ปัจจุบัน:
+### `/market reset <item>`
+
+รีเซ็ตราคา item กลับไปที่ base price
+
+Permission:
+
+```text
+voidmarket.market.reset
+```
+
+### `/market setbuy <item> <price>`
+
+ตั้งราคา buy ของสินค้า
+
+Permission:
+
+```text
+voidmarket.market.edit
+```
+
+### `/market setsell <item> <price>`
+
+ตั้งราคา sell ของสินค้า
+
+Permission:
+
+```text
+voidmarket.market.edit
+```
+
+## วิธีใช้ GUI Server Market
+
+1. ใช้ `/market`
+2. เลือกหมวดสินค้า
+3. ในหน้ารายการสินค้า:
+   - คลิกซ้าย = ซื้อ 1 ชุด
+   - คลิกขวา = ขาย 1 ชุด
+   - Shift click = เปิดหน้าปรับจำนวน
+4. ในหน้าปรับจำนวนใช้ปุ่ม `-64`, `-32`, `-16`, `-1`, `+1`, `+16`, `+32`, `+64`
+5. กดยืนยัน BUY หรือ SELL
+
+สถานะราคา:
+
+```text
+UP     = ราคากำลังขึ้น
+DOWN   = ราคากำลังลง
+STABLE = ราคาปกติ
+```
+
+## หมวด Server Market
+
+```text
+blocks_shop
+colored_blocks_shop
+wood_shop
+nature_shop
+farming_shop
+food_shop
+materials_shop
+mobdrops_common_shop
+mobdrops_rare_shop
+utility_shop
+```
+
+## Config สำคัญ
 
 ```yaml
+language: en
+tax-percent: 5.0
+max-shops-default: 2
+max-shops-vip: 5
+max-shops-svip: 10
+max-shops-staff: 50
+max-shop-stock: 3456
 allow-buy-own-shop: false
 ```
 
-ถ้าต้องการให้ซื้อร้านตัวเองได้:
+Server Market:
 
 ```yaml
-allow-buy-own-shop: true
+server-market:
+  enabled: true
+  economy:
+    dynamic-pricing: true
+    price-change-percent-buy: 2.5
+    price-change-percent-sell: 2.0
+    price-recovery-percent: 1.0
+    recovery-interval-minutes: 60
+    min-multiplier: 0.5
+    max-multiplier: 3.0
+    default-sell-ratio: 0.25
 ```
 
-แล้วใช้:
-
-```text
-/pshop reload
-```
-
-หรือ restart server
-
-## Storage / ฐานข้อมูล
+## Storage
 
 ค่าเริ่มต้นคือ SQLite:
 
@@ -337,7 +336,11 @@ storage:
     useSSL: false
 ```
 
-หมายเหตุ: ชื่อไฟล์ SQLite ยังเป็น `market.db` เพื่อความเข้ากันได้กับข้อมูลเดิม แต่ระบบตลาดกลางถูกลบออกแล้ว
+Player Shop ใช้ database เดิม ส่วน Server Market เก็บราคา dynamic แยกใน:
+
+```text
+server-market-data.yml
+```
 
 ## ภาษา
 
@@ -360,42 +363,9 @@ messages_en.yml
 messages_th.yml
 ```
 
-ถ้าไฟล์ภาษาเก่าขาด key ใหม่ plugin จะ fallback ไปใช้ข้อความ default จาก jar
-
-## Config สำคัญ
-
-```yaml
-language: en
-tax-percent: 5.0
-max-shops-default: 2
-max-shops-vip: 5
-max-shops-svip: 10
-max-shops-staff: 50
-max-shop-stock: 3456
-allow-buy-own-shop: false
-```
-
-ความหมาย:
-
-- `tax-percent` ภาษีร้านค้าผู้เล่น
-- `max-shops-default` จำนวนร้านของผู้เล่นทั่วไป
-- `max-shops-vip` จำนวนร้านของ VIP
-- `max-shops-svip` จำนวนร้านของ SVIP
-- `max-shops-staff` จำนวนร้านของ staff
-- `max-shop-stock` stock สูงสุดต่อร้าน
-- `allow-buy-own-shop` อนุญาตให้ซื้อร้านตัวเองหรือไม่
-
-## Blocked Items
-
-ตั้ง item ที่ห้ามขายในร้าน:
-
-```yaml
-blocked-items:
-  - BEDROCK
-  - COMMAND_BLOCK
-```
-
 ## Permissions ทั้งหมด
+
+Player Shop:
 
 ```text
 voidmarket.use
@@ -410,18 +380,34 @@ voidmarket.reload
 voidmarket.bypass
 ```
 
+Server Market:
+
+```text
+voidmarket.market.use
+voidmarket.market.admin
+voidmarket.market.reload
+voidmarket.market.edit
+voidmarket.market.reset
+```
+
 ## ตัวอย่าง LuckPerms
 
 ```text
 lp group default permission set voidmarket.use true
 lp group default permission set voidmarket.shop.create true
 lp group default permission set voidmarket.shop.limit.default true
+lp group default permission set voidmarket.market.use true
 
 lp group vip permission set voidmarket.shop.limit.vip true
 lp group svip permission set voidmarket.shop.limit.svip true
 
+lp group admin permission set voidmarket.admin true
 lp group admin permission set voidmarket.reload true
 lp group admin permission set voidmarket.bypass true
+lp group admin permission set voidmarket.market.admin true
+lp group admin permission set voidmarket.market.reload true
+lp group admin permission set voidmarket.market.edit true
+lp group admin permission set voidmarket.market.reset true
 ```
 
 ## PlaceholderAPI
@@ -435,13 +421,20 @@ lp group admin permission set voidmarket.bypass true
 
 ## สรุปสำหรับผู้เล่น
 
+ใช้ร้านผู้เล่น:
+
 ```text
 /pshop
-/pshop help
 /pshop create <ราคา>
 /pshop browse
 /pshop list
 /pshop manage
+```
+
+ใช้ตลาดกลางเซิร์ฟเวอร์:
+
+```text
+/market
 ```
 
 ## สรุปสำหรับแอดมิน
@@ -449,4 +442,9 @@ lp group admin permission set voidmarket.bypass true
 ```text
 /pshop reload
 /pshop storage
+/market data
+/market reload
+/market reset <item>
+/market setbuy <item> <price>
+/market setsell <item> <price>
 ```
